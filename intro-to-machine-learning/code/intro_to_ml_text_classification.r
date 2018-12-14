@@ -1,9 +1,9 @@
-library(tidyverse) # for tidy data analysis
+library(tidyverse)
 library(tidytext)
 library(tm)
 library(caret)
 
-congress = read.csv("../datasets/congress_bills_dataset.csv", header=T)
+congress = read.csv("datasets/congress_bills_dataset.csv", header=T)
 congress = mutate(congress, text = as.character(text))
 
 congress_tokens = unnest_tokens(congress, output = word, input = text)
@@ -63,13 +63,39 @@ index = createDataPartition(model_data$major, p = 0.7, list = FALSE)
 train_data = model_data[index, ]
 test_data  = model_data[-index, ]
 
-# this runs quickly
-congress_rf = train(major ~ ., data = train_data, 
-	                method = "rf", ntree = 200, 
-					trControl = trainControl(method = "oob"))
+# this runs in a semi-reasonable amount of time
+congress_rf = train(major ~ ., data = train_data,  
+                    method = "rf", ntree = 200, 
+                    trControl = trainControl(method = "oob"))
 
-# this takes a long time to run but uses cross fold validation to the model
-#congress_rf = train(major ~ ., data = train_data, method = "rf", ntree = 200, trControl = trainControl(method = "repeatedcv", number = 5, repeats = 3, savePredictions = TRUE, verboseIter = FALSE))
-congress_rf$finalModel
+# this takes a long time to run but uses cross fold validation for the model.
+# the accuracy is almost exactly the same
+#congress_rf = train(major ~ ., data = train_data, method = "rf", ntree = 200, preProcess = c("scale", "center"), trControl = trainControl(method = "repeatedcv", number = 5, repeats = 3, savePredictions = TRUE, verboseIter = FALSE))
+
 confusionMatrix(predict(congress_rf, test_data), test_data$major)
+
+
+
+nn = train(major ~ ., data=train_data,
+           method="nnet", 
+           trControl = trainControl(method = "repeatedcv", number = 5, repeats = 3, 
+                                    verboseIter = FALSE), 
+           verbose=FALSE)
+
+
+confusionMatrix(predict(nn, test_data), test_data$major)
+
+
+# how would we do it with a decision tree?
+
+# load needed libraries
+library(rpart)
+
+model_dt <- rpart(major ~ ., data = train_data, method = "class", 
+                  control = rpart.control(xval = 10, minbucket = 2))
+
+# no need to visualize this as it will be somewhat insane
+
+# predict testData with the decision tree
+confusionMatrix(predict(model_dt, test_data, type = "class"), as.factor(test_data$major))
   

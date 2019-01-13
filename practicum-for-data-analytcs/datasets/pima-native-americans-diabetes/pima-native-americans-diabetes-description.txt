@@ -1,0 +1,7 @@
+Pima Native Americans Diabetes Database
+Description: Predict the onset of diabetes in female Pima Native Americans from medical record data.
+Type: Binary Classification
+Dimensions: 768 instances, 9 attributes
+Inputs: Numeric
+Output: Categorical, 2 class labels
+

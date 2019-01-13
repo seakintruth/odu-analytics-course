@@ -1,0 +1,21 @@
+Prestige of Canadian Occupations
+
+Description
+The Prestige data frame has 102 rows and 4 columns. The observations are different occupations.
+
+Usage
+Attempt to create a regression model to compute the presitge of the occupation. Are all three variables needed?
+
+This data frame contains the following columns:
+
+education
+Average education of occupational incumbents, years, in 1971.
+
+income
+Average income of incumbents, dollars, in 1971.
+
+women
+Percentage of incumbents who are women.
+
+prestige
+Pineo-Porter prestige score for occupation, from a social survey conducted in the mid-1960s.

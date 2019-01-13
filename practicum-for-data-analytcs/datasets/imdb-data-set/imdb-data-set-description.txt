@@ -1,0 +1,32 @@
+The dataset contains 28 different attributes of almost 4,000 different movies listed on imdb.
+
+Using attributes related to facebook data, imdb scores, budget information, critic reviews many different regression or classification problems can be framed.
+
+color
+director_nameName of the Director of the Movie
+num_critic_for_reviews
+duration
+director_facebook_likes
+actor_3_facebook_likes
+actor_2_name
+actor_1_facebook_likesNumber of likes of the Actor_1 on his/her Facebook Page
+gross
+genres
+actor_1_namePrimary actor starring in the movie
+movie_title
+num_voted_users
+cast_total_facebook_likes
+actor_3_name
+facenumber_in_poster
+plot_keywords
+movie_imdb_link
+num_user_for_reviews
+language
+country
+content_rating
+budget
+title_year
+actor_2_facebook_likes
+imdb_score
+aspect_ratio
+movie_facebook_likes

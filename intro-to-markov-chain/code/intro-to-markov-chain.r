@@ -44,7 +44,7 @@ chain.states  <- matrix(NA, ncol=num.trials, nrow=num.steps.to.simulate)
 
 # simulate chains
 for(c in seq_len(num.trials)){
-	chain.states[,c] <- run.mc.sim(P, num.iters=365,initial.state.is.random=TRUE)
+	chain.states[,c] <- run.mc.sim(P, num.iters=num.steps.to.simulate,initial.state.is.random=FALSE)
 }
 
 # clean up data a little bit to plot it

@@ -16,7 +16,7 @@ spam.data = spam.data %>% mutate(message = as.character(spam.data$message))
 spam.data = spam.data %>% mutate(ID = seq.int(nrow(spam.data)))
 
 # unnest all the tokens
-spam.tokens = unnest_tokens(spam.data, output = word, input = message)
+spam.tokens = spam.data %>% unnest_tokens(output = word, input = message)
 
 # filter out any text that contains a digit anywhere or is not of length 5
 spam.tokens = spam.tokens %>% filter(!str_detect(word, "^\\D+$") | !str_detect(word, "\\w{5,}"))

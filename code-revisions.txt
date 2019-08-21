@@ -1,0 +1,11 @@
+If you want to copy and paste from this document goto: https://github.com/rossgore/odu-analytics-course and click on code-revisions.txt
+
+add to the top the files in the code directory for Deep Learning (mnist-classification.R and recurrent-neural-network.R):
+
+setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
+
+
+Within recurrent-neural-network.R do a find on "deep-learning" and replace it with "..":
+(there should be six occurences)
+
+Within mnist-classification.R delete line 11 : setwd("C:/Users/Gayane/Desktop/Predictive Analytics - Deep Learning/code")

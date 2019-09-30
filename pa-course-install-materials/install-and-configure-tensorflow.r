@@ -4,6 +4,37 @@ readInput <- function(question)
   return(n)
 }
 
+tensor.flow.is.avaiable = FALSE
+found.numpy.without.issue = FALSE
+loaded.keras.without.issue = FALSE
+try({
+  # check that it installed without issue
+  my.tensorflow.config = tensorflow:::tf_config()
+  tensor.flow.is.avaiable = my.tensorflow.config$available
+  configured.on.system.without.issue = TRUE
+  
+  # check for numpy
+  my.python.config = reticulate::py_config()
+  found.numpy.without.issue = !(is.null(my.python.config$numpy))
+  
+  loaded.keras.without.issue = require(keras) 
+})
+
+if (tensor.flow.is.avaiable & found.numpy.without.issue & loaded.keras.without.issue)
+{
+  belt.and.suspenders.test = FALSE
+  try({
+    tensorflow::use_session_with_seed(42)
+    belt.and.suspenders.test = TRUE
+  })
+  if (belt.and.suspenders.test)
+  {
+    cat(paste("You do not need to run this script you have a working tensorflow, numpy and keras"))
+    cat(paste("You can ingore a message below that may say 'Error in eval(ei, envir)'"))
+    stop()
+  }
+  
+}
 
 has.r.tools = FALSE
 try({
@@ -40,38 +71,19 @@ if (answer != "yes")
 {
   cat(paste("You have not answered 'yes' to the question do you have Anaconda3-5.2 installed on your machine.",
             "Please go and install the software on your usb drive or at https://repo.anaconda.com/archive/", sep="\n"))
+  cat(paste("You can ingore a message below that may say 'Error in eval(ei, envir)'"))
   stop()
 } else
 {
   
-  remove.packages.answer = readInput(question="To be sure you get a clean installation we are going to remove any prior installation of the the following packages from your machine: 'tensorflow', 'keras' and 'reticulate'. Is this okay?")
+  remove.packages.answer = readInput(question="We are going to remove any prior installation of: 'tensorflow', 'keras' and 'reticulate'. Is this okay?")
   if (answer != "yes")
   {
-    my.tensorflow.config = FALSE
-    my.python.config = FALSE
-    try({
-      # check that it installed without issue
-      my.tensorflow.config = tensorflow:::tf_config()
-      tensor.flow.is.avaiable = my.tensorflow.config$available
-      configured.on.system.without.issue = TRUE
-      
-      # check for numpy
-      my.python.config = reticulate::py_config()
-      found.numpy.without.issue = !(is.null(my.python.config$numpy))
-    })
-    
     cat(paste("You have not answered 'yes' to the question is it okay to remove any prior installations of 'tensorflow', 'keras', and 'reticulate'.",
               "To avoid this step you must already have an installation of tensorflow and keras up and running.",
-              "Show an instructor that this is the case or rerun the script and answer 'yes' to this question.", sep="\n"))
-    
-    if (my.tensorflow.config)
-    {
-      cat(paste("The student has a valid tensorflow configured.", sep="\n"))
-    }
-    if(my.python.config)
-    {
-      cat(paste("The student has a valid python environment configured with numpy.", sep="\n"))
-    }
+              "Show an instructor that this is the case by rerunning the script.",
+              "When you rerun ths script it will stop almost immediately and identify that you have a working installation",
+              "If this does not happen then wehn you rerun the script you should answer 'yes' to this question.", sep="\n"))
     
     stop()
   }
@@ -79,12 +91,16 @@ if (answer != "yes")
   remove.packages(c("tensorflow", "keras", "reticulate"))
   
   Sys.sleep(5)
+  cat(paste("------------------------------------------------------------------"))
   cat(paste("Trying to install tensorflow and keras using Rtools from github.",
             "You may be asked to install or update other packages",
             "Always select '1: All' to this question.",
             "You also may be asked to if it is okay to restart R at times",
             "You should say 'yes' to this question.", sep = "\n"))
   Sys.sleep(5)
+  cat(paste("------------------------------------------------------------------"))
+  cat(paste("During this process R/RStudio may try and restart itself and even crash.",
+            "If that happens simply restart R/RStudio and rerun the script again by pressing source.", sep = "\n"))
   
   try({
     devtools::install_github("rstudio/tensorflow")
@@ -120,7 +136,7 @@ if (answer != "yes")
     if (installed.onto.system.without.issue == FALSE)
     {
       cat(paste("Could not build tensorflow properly on your system.",
-                "Be sure you are running as administration.",
+                "Be sure you are running as administratior.",
                 "Also you can try uninstalling RTools and R and then reinstalling the version of R version 3.6.1 (2019-07-05) -- 'Action of the Toes' and Rtools35.exe provided on the usb drive.",
                 "Then rerun this script.",
                 "If that still does not try the following: uninstall and reinstall Anaconda3-5.2. Once reinstalled goto a command prompt and type 'conda update --all'.",
@@ -141,7 +157,7 @@ if (answer != "yes")
     else if (loaded.keras.without.issue == FALSE)
     {
       cat(paste("Could not laod keras.",
-                "Try and install keras via cran by typing:  install.packages(\"tensorflow\", repos='http://cran.us.r-project.org') in the console below.",
+                "Try and install keras via cran by typing:  install.packages(\"keras\", repos='http://cran.us.r-project.org') in the console below.",
                 "Note to instructor: I have not seen this issue arise yet but it should be minor.",
                 "Getting a valid tensorflow configuration is the big hurdle keras just uses that configuration.", sep="\n"))
     }
@@ -209,7 +225,7 @@ if (answer != "yes")
         cat(paste("Could not build tensorflow properly on your system even using CRAN.",
                   "This is a larger problem with installing packages in general as Rtools35.exe is not even required for this.",
                   "Please try to see if you can install any package from CRAN on your system.",
-                  "Be sure you are running as administration.",
+                  "Be sure you are running as administratior.",
                   "Also you can try uninstalling RTools and R and then reinstalling the version of R version 3.6.1 (2019-07-05) -- 'Action of the Toes' and Rtools35.exe provided on the usb drive.",
                   "Then rerun this script.",
                   "If that still does not try the following: uninstall and reinstall Anaconda3-5.2. Once reinstalled goto a command prompt and type 'conda update --all'.",
@@ -232,8 +248,8 @@ if (answer != "yes")
       }
       else if (loaded.keras.without.issue == FALSE)
       {
-        cat(paste("Could not laod keras but d",
-                  "Try and install keras via cran by typing:  install.packages(\"tensorflow\", repos='http://cran.us.r-project.org') in the console below.",
+        cat(paste("Could not laod keras but did load install and configure tensorflow",
+                  "Try and install keras via cran by typing:  install.packages(\"keras\", repos='http://cran.us.r-project.org') in the console below.",
                   "Note to instructor: I have not seen this issue arise yet but it should be minor.",
                   "Getting a valid tensorflow configuration is the big hurdle keras just uses that configuration.", sep="\n"))
       }

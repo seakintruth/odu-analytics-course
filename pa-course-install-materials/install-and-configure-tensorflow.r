@@ -24,7 +24,7 @@ if (tensor.flow.is.avaiable & found.numpy.without.issue & loaded.keras.without.i
 {
   belt.and.suspenders.test = FALSE
   try({
-    tensorflow::use_session_with_seed(42)
+    hello <- tf$constant('Hello, TensorFlow!')
     belt.and.suspenders.test = TRUE
   })
   if (belt.and.suspenders.test)
@@ -165,7 +165,7 @@ if (answer != "yes")
     {
       belt.and.suspenders.test = FALSE
       try({
-        tensorflow::use_session_with_seed(42)
+        tf$constant('Hello, TensorFlow!')
         belt.and.suspenders.test = TRUE
       })
       if (belt.and.suspenders.test)
@@ -174,7 +174,7 @@ if (answer != "yes")
       }
       else
       {
-        cat(paste("Everything seemed fine but failed to run a simple set session seed test.",
+        cat(paste("Everything seemed fine but failed to run a simple hello world test.",
                   "Output of tf_config is",
                   tensor.flow.is.avaiable, 
                   "I have never seen this before. Please show this to an instructor.",
@@ -257,7 +257,7 @@ if (answer != "yes")
       {
         belt.and.suspenders.test = FALSE
         try({
-          tensorflow::use_session_with_seed(42)
+          tf$constant('Hello, TensorFlow!')
           belt.and.suspenders.test = TRUE
         })
         if (belt.and.suspenders.test)
@@ -266,7 +266,7 @@ if (answer != "yes")
         }
         else
         {
-          cat(paste("Everything seemed fine but failed to run a simple set session seed test.",
+          cat(paste("Everything seemed fine but failed to run a hello world test.",
                     "Output of tf_config is",
                     tensor.flow.is.avaiable, 
                     "I have never seen this before. Please show this to an instructor.",
